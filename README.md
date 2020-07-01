@@ -1,4 +1,4 @@
-# COVID-19 Vaccine and Therapeutics Expert Predictions. 
+# COVID-19 Vaccine and Therapeutics Expert Predictions
 
 We aim to build an expert consensus prediction on developments related to SARS-CoV-2 vaccines and COVID-19 therapeutics. 
 Each survey asks a small group of subject matter experts and trained forecasters to make predictions starting on the 15th and closing on the 25th of every month.
