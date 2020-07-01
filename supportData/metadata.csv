@@ -1,0 +1,7 @@
+surveyopen,surveyclosed,question,questiontext,responsetype
+2020-06-15,2020-06-30,1,When will a SARS-CoV-2 vaccine candidate demonstrate gte 70% efficacy?,date
+2020-06-15,2020-06-30,2,What will be the efficacy of the Oxford/AstraZeneca ChAdOx1 nCoV-19 vaccine candidate accordingto the results of Phase II/III testing?,numeric
+2020-06-15,2020-06-30,3,When will a SARS-CoV-2 vaccine candidate be approved for use in the United States or European Union,date
+2020-06-15,2020-06-30,4,When will the first SARS-CoV-2 vaccine to be approved in the US or EU be administered to gt 100K people,date
+2020-06-15,2020-06-30,5,When will a COVID-19 therapeutic or therapeutics cocktail show a statistically significant survival benefit for the treatment group in a N gt 200 RCT,date
+2020-06-15,2020-06-30,6,How many SARS-CoV-2 vaccine candidates will be in human trials as of 1 August 2020,numeric
