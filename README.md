@@ -11,7 +11,7 @@ Trained Forecasters were defined as the top 1% out of a total pool of approximat
 
 | Survey Number | Date Issued  | Date Closed | Summary
 |---|---|---|---|
-|01 | 2020-06-15  | 2020-06-30  | XXX  |
+|01 | 2020-06-15  | 2020-06-30  | [Summary 01](https://works.bepress.com/mcandrew/11/)  |
 
 
 
