@@ -19,4 +19,4 @@ Trained Forecasters were defined as the top 1% out of a total pool of approximat
 * Daniel Sluder   - daniel@metaculus.com
 * Tamay Besiroglu - tamay@metaculus.com
 * Juan Cambeiro   - juan@metaculus.com
-* tom mcandrew    - mcandrew@umass.edu
+* tom mcandrew    - mcandrew@lehigh.edu
