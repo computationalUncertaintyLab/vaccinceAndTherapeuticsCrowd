@@ -12,11 +12,11 @@ Trained Forecasters were defined as the top 1% out of a total pool of approximat
 | Survey Number | Date Issued  | Date Closed | Summary
 |---|---|---|---|
 |01 | 2020-06-15  | 2020-06-30  | [Summary 01](https://works.bepress.com/mcandrew/11/)  |
-
-
+|02 | 2020-07-15  | 2020-07-30  | [Summary 02](https://works.bepress.com/mcandrew/12/)  |
+|03 | 2020-08-15  | 2020-08-30  | [Summary 03](https://works.bepress.com/mcandrew/13/)  |
 
 # Contact information
 * Daniel Sluder   - daniel@metaculus.com
 * Tamay Besiroglu - tamay@metaculus.com
 * Juan Cambeiro   - juan@metaculus.com
-* tom mcandrew    - mcandrew@umass.edu
+* tom mcandrew    - mcandrew@lehigh.edu
