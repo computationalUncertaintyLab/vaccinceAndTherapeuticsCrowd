@@ -1,14 +1,27 @@
-,numOfPredictions,question,qid,publishtime,closetime,numcomments,numvotes
-0,21,What will be the efficacy of the Oxford/AstraZeneca ChAdOx1 nCoV-19 vaccine candidate according to the results of Phase II/III testing?,4639,2020-06-15T20:00:00Z,2020-06-26T03:59:00Z,3,3
-1,20,When will the first SARS-CoV-2 vaccine to be approved in the US or EU be administered to >100k people?,4641,2020-06-15T20:00:00Z,2020-06-26T03:59:00Z,7,3
-2,30,How many SARS-CoV-2 vaccine candidates will be in human trials as of 1 August 2020?,4643,2020-06-15T20:00:00Z,2020-06-26T03:59:00Z,3,3
-3,27,When will a SARS-CoV-2 vaccine candidate be approved for use in the United States or European Union?,4640,2020-06-15T20:00:00Z,2020-06-26T03:59:00Z,1,3
-4,30,When will a SARS-CoV-2 vaccine candidate demonstrate ≥70% efficacy?,4638,2020-06-14T22:00:00Z,2020-06-26T03:59:00Z,8,3
-5,26,When will a COVID-19 therapeutic or therapeutics cocktail show a statistically significant survival benefit for the treatment group in a n>200 RCT?,4642,2020-06-15T20:00:00Z,2020-06-26T03:59:00Z,2,3
-6,22,When will a SARS-CoV-2 antiviral show a statistically significant survival benefit for the treatment group in an n>200 RCT?,4828,2020-07-15T17:00:00Z,2020-07-27T03:59:00Z,5,3
-7,19,What will be the efficacy of the first US- or EU- approved SARS-CoV-2 vaccine based on a non-replicating viral vector platform?,4827,2020-07-15T17:00:00Z,2020-07-27T03:59:00Z,1,3
-8,27,When will a SARS-CoV-2 monoclonal antibody or antibody cocktail show a statistically significant survival benefit for the treatment group in an n>200 RCT?,4829,2020-07-15T17:00:00Z,2020-07-27T03:59:00Z,4,3
-9,17,What will be the efficacy of the first US- or EU- approved SARS-CoV-2 vaccine based on a protein subunit platform?,4824,2020-07-15T17:00:00Z,2020-07-27T03:59:00Z,0,3
-10,16,What will be the efficacy of the first US- or EU- approved SARS-CoV-2 vaccine based on an inactivated virus platform?,4825,2020-07-15T17:00:00Z,2020-07-27T03:59:00Z,0,3
-11,19,What will be the efficacy of the first US- or EU- approved SARS-CoV-2 vaccine based on a DNA or RNA platform?,4823,2020-07-15T17:00:00Z,2020-07-27T03:59:00Z,0,3
-12,28,When will a SARS-CoV-2 vaccine candidate be approved for use in the United States or European Union?,4822,2020-07-15T17:00:00Z,2020-07-27T03:59:00Z,0,4
+surveynum,numOfPredictions,question,qid,publishtime,closetime,numcomments,numvotes
+1,21,What will be the efficacy of the Oxford/AstraZeneca ChAdOx1 nCoV-19 vaccine candidate according to the results of Phase II/III testing?,4639,2020-06-15T20:00:00Z,2020-06-26T03:59:00Z,3,3
+1,20,When will the first SARS-CoV-2 vaccine to be approved in the US or EU be administered to >100k people?,4641,2020-06-15T20:00:00Z,2020-06-26T03:59:00Z,7,4
+1,30,How many SARS-CoV-2 vaccine candidates will be in human trials as of 1 August 2020?,4643,2020-06-15T20:00:00Z,2020-06-26T03:59:00Z,5,3
+1,27,When will a SARS-CoV-2 vaccine candidate be approved for use in the United States or European Union?,4640,2020-06-15T20:00:00Z,2020-06-26T03:59:00Z,1,3
+1,30,When will a SARS-CoV-2 vaccine candidate demonstrate ≥70% efficacy?,4638,2020-06-14T22:00:00Z,2020-06-26T03:59:00Z,8,3
+1,26,When will a COVID-19 therapeutic or therapeutics cocktail show a statistically significant survival benefit for the treatment group in a n>200 RCT?,4642,2020-06-15T20:00:00Z,2020-06-26T03:59:00Z,2,3
+2,22,When will a SARS-CoV-2 antiviral show a statistically significant survival benefit for the treatment group in an n>200 RCT?,4828,2020-07-15T17:00:00Z,2020-07-27T03:59:00Z,5,3
+2,19,What will be the efficacy of the first US- or EU- approved SARS-CoV-2 vaccine based on a non-replicating viral vector platform?,4827,2020-07-15T17:00:00Z,2020-07-27T03:59:00Z,1,3
+2,27,When will a SARS-CoV-2 monoclonal antibody or antibody cocktail show a statistically significant survival benefit for the treatment group in an n>200 RCT?,4829,2020-07-15T17:00:00Z,2020-07-27T03:59:00Z,4,3
+2,17,What will be the efficacy of the first US- or EU- approved SARS-CoV-2 vaccine based on a protein subunit platform?,4824,2020-07-15T17:00:00Z,2020-07-27T03:59:00Z,0,3
+2,16,What will be the efficacy of the first US- or EU- approved SARS-CoV-2 vaccine based on an inactivated virus platform?,4825,2020-07-15T17:00:00Z,2020-07-27T03:59:00Z,0,3
+2,19,What will be the efficacy of the first US- or EU- approved SARS-CoV-2 vaccine based on a DNA or RNA platform?,4823,2020-07-15T17:00:00Z,2020-07-27T03:59:00Z,0,3
+2,28,When will a SARS-CoV-2 vaccine candidate be approved for use in the United States or European Union?,4822,2020-07-15T17:00:00Z,2020-07-27T03:59:00Z,1,4
+3,15,S3|Q1: When will a SARS-CoV-2 vaccine candidate be approved for use in the US or EU through a normal approval process?,5054,2020-08-19T15:00:00Z,2020-08-30T03:59:00Z,1,1
+3,21,S3|Q2: When will a SARS-CoV-2 vaccine candidate be approved for use in the US or EU through an emergency approval process?,5055,2020-08-19T15:00:00Z,2020-08-30T03:59:00Z,3,1
+3,16,S3|Q3: What will be the efficacy of the first US- or EU- approved SARS-CoV-2 vaccine candidate approved through a normal approval process?,5056,2020-08-19T15:00:00Z,2020-08-30T03:59:00Z,1,1
+3,22,S3|Q4: What will be the efficacy of the first US- or EU- approved SARS-CoV-2 vaccine candidate approved through an emergency approval process?,5057,2020-08-19T15:00:00Z,2020-08-30T03:59:00Z,3,1
+3,18,S3|Q5: How many weeks after approval will the first 100 million doses of the first US- or EU- approved SARS-CoV-2 vaccine candidate based on a DNA or RNA platform be manufactured?,5058,2020-08-19T15:00:00Z,2020-08-30T03:59:00Z,2,1
+3,15,S3|Q6: How soon after approval will the first 100 million doses of the first US- or EU- approved SARS-CoV-2 vaccine candidate based on a non-replicating viral vector platform be manufactured?,5059,2020-08-19T15:00:00Z,2020-08-30T03:59:00Z,1,1
+3,26,S3|Q7: When will an orally administered SARS-CoV-2 antiviral show a statistically significant survival benefit for the treatment group in an n>200 RCT?,5060,2020-08-19T15:00:00Z,2020-08-30T03:59:00Z,3,2
+3,20,S3|Q8: What will be the SARS-CoV-2 infectivity of children relative to adults when schools are open?,5061,2020-08-19T20:45:00Z,2020-08-30T03:59:00Z,2,1
+4,15,S4|Q1: When will a SARS-CoV-2 vaccine candidate be approved for use in the US through a normal approval process?,5288,2020-09-21T23:00:00Z,2020-10-04T03:59:00Z,1,2
+4,14,S4|Q2: When will a SARS-CoV-2 vaccine candidate be approved for use in the US through an emergency approval process?,5289,2020-09-21T23:00:00Z,2020-10-04T03:59:00Z,0,2
+4,16,S4|Q3: What will be the efficacy ratio of the first SARS-CoV-2 vaccine candidate approved on an emergency basis (numerator) compared to the first approved through a normal process (denominator)?,5290,2020-09-21T23:00:00Z,2020-10-04T03:59:00Z,1,2
+4,14,S4|Q4: What is the probability of at least ten serious adverse events (SAEs) being attributed within one year to the first SARS-CoV-2 vaccine approved in the US through a normal approval process?,5291,2020-09-21T23:00:00Z,2020-10-04T03:59:00Z,3,2
+4,16,S4|Q5: What is the probability of at least ten serious adverse events (SAEs) being attributed within one year to the first SARS-CoV-2 vaccine approved in the US through an emergency approval process?,5292,2020-09-21T23:00:00Z,2020-10-04T03:59:00Z,0,2
