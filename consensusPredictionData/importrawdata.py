@@ -65,8 +65,15 @@ class mVaccTherQuestions(object):
         for _ in range(numProbs-1):
             xs.append(xs[-1]+interval)
         self.xs=xs
-        self.probs=density
+        self.dens=density
         self.interval = interval
+
+    def hasDist(self):
+        try:
+            density = self.data['community_prediction']['unweighted']['y']
+            return 1
+        except:
+            return 0
 
 def addInCDF(data):
     def cuumsum(x):
@@ -75,23 +82,49 @@ def addInCDF(data):
         return x
     return data.groupby('qid').apply(cuumsum).drop(columns=['qid']).reset_index()
 
+def addInProbs(data):
+    def computeProbAndCProb(x):
+        dens = list(x.dens.values)
+        try:
+            inv = x.interval.values[0].total_seconds()
+        except AttributeError:
+            inv = x.interval.values[0]
+
+        probs = [ (1/100)*inv*(x+y)/2  for (x,y) in zip(dens,dens[1:])] # trapezoid rule of quadrature           
+        x['probs']  = probs + [ 1. - np.sum(probs) ]
+        x['cprobs'] = np.cumsum( x.probs.values )
+            
+        return x
+    return data.groupby(['qid']).apply(computeProbAndCProb).reset_index()
+
 if __name__ == "__main__":
 
-    qdata = {'numOfPredictions':[],'question':[],'qid':[],'publishtime':[],'closetime':[],'numcomments':[],'numvotes':[]}
-    data = {'qid':[],'bin':[],'interval':[],'prob':[]}
+    qdata = {'surveynum':[],'numOfPredictions':[],'question':[],'qid':[],'publishtime':[],'closetime':[],'numcomments':[],'numvotes':[]}
+    data = {'surveynum':[],'qid':[],'bin':[],'interval':[],'dens':[]}
     
-    fromsurveyNumber2Questionlist = {1:[4639,4641,4643,4640,4638,4642], 2:[4828,4827,4829,4824,4825,4823,4822]}
+    fromsurveyNumber2Questionlist = {1:[4639,4641,4643,4640,4638,4642]
+                                    ,2:[4828,4827,4829,4824,4825,4823,4822]
+                                    ,3:[5054,5055,5056,5057,5058,5059,5060,5061]
+                                    ,4:[5288, 5289, 5290, 5291, 5292, 5293,5294]}
 
     for surveyNum,questions in fromsurveyNumber2Questionlist.items():
         metac = mVaccTherQuestions("../../loginInfo.text")
         metac.sendRequest2Server() # ping the server
 
         for q in questions:
+            sys.stdout.write('\rDownloading data from Q {:04d}\r'.format(q))
+            sys.stdout.flush()
+            
             metac.collectQdata(q) # collect json data for this specific question
+            
+            if metac.hasDist() == False: # skip question with textual answers only
+                continue
             metac.constructPDF()  # contstuct community, unweighted consensus PDF
 
             qid = metac.data['id']
             qdata['qid'].append(qid)
+
+            qdata['surveynum'].append(surveyNum)
             
             npredics = metac.data['number_of_predictions']
             qdata['numOfPredictions'].append(npredics)
@@ -112,16 +145,21 @@ if __name__ == "__main__":
             qdata['numvotes'].append(nvotes)
 
             interv = metac.interval
-            for (x,p) in zip(metac.xs,metac.probs):
+            for (x,p) in zip(metac.xs,metac.dens):
                 data['qid'].append(qid)
                 data['bin'].append(x)
-                data['prob'].append(p)
+                data['dens'].append(p)
                 data['interval'].append(interv)
+                data['surveynum'].append(surveyNum)
 
     # transform dict to a data frame
     qdata = pd.DataFrame(qdata)
     data  = pd.DataFrame(data)
 
+    # approximate density to compute probs
+    data = addInProbs(data)
+    data = data.drop(columns=["index"])
+
     # store data
-    qdata.to_csv("./qdata.csv")
-    data.to_csv("./predictiondata.csv")
+    qdata.to_csv("./qdata.csv",index=False)
+    data.to_csv("./predictiondata.csv",index=False)
