@@ -84,15 +84,26 @@ def addInCDF(data):
 
 def addInProbs(data):
     def computeProbAndCProb(x):
-        dens = list(x.dens.values)
-        try:
-            inv = x.interval.values[0].total_seconds()
-        except AttributeError:
-            inv = x.interval.values[0]
+        import scipy.integrate as integrate
 
-        probs = [ (1/100)*inv*(x+y)/2  for (x,y) in zip(dens,dens[1:])] # trapezoid rule of quadrature           
-        x['probs']  = probs + [ 1. - np.sum(probs) ]
-        x['cprobs'] = np.cumsum( x.probs.values )
+        try:
+            xs = [float(x) for x in x.bin.values]
+        except:
+            referencetime = pd.to_datetime("2000-01-01")
+            xs = [ (x - referencetime).total_seconds()  for x in x.bin.values]
+
+        ys = [float(y) for y in x.dens.values]
+            
+        cprobs = []
+        S = integrate.simps(ys,xs)
+        for i in range(len(ys)):
+            if i==0:
+                continue
+            cdf = integrate.simps( ys[:i], xs[:i] ) / S
+            cprobs.append(cdf)
+        cprobs = [0]+cprobs
+
+        x['cprobs'] = cprobs
             
         return x
     return data.groupby(['qid']).apply(computeProbAndCProb).reset_index()
