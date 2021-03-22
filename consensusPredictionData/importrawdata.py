@@ -48,11 +48,14 @@ class mVaccTherQuestions(object):
 
     def constructPDF(self):
         density = self.data['community_prediction']['unweighted']['y']
-        numProbs = len(density)
+        numProbs = 200
         
         minvalue  = self.data['possibilities']['scale']['min']
         maxvalue  = self.data['possibilities']['scale']['max']
 
+        self.minvalue = minvalue
+        self.maxvalue = maxvalue
+        
         if type(minvalue) is int:
             minvalue = float(minvalue)
             maxvalue = float(maxvalue)
@@ -62,7 +65,7 @@ class mVaccTherQuestions(object):
         interval = (maxvalue-minvalue)/numProbs
         
         xs = [minvalue]
-        for _ in range(numProbs-1):
+        for _ in range(numProbs):
             xs.append(xs[-1]+interval)
         self.xs=xs
         self.dens=density
@@ -86,32 +89,43 @@ def addInProbs(data):
     def computeProbAndCProb(x):
         import scipy.integrate as integrate
 
-        try:
-            xs = [float(x) for x in x.bin.values]
-        except:
+        if isinstance(x.bin.values[0],(pd.Timestamp,np.datetime64)):
             referencetime = pd.to_datetime("2000-01-01")
             xs = [ (x - referencetime).total_seconds()  for x in x.bin.values]
 
+            totalSeconds = (xs[-2]-xs[0])
+        else:
+            xs = [float(x) for x in x.bin.values]
+            totalSeconds = 1.
+           
+        #xs = np.arange(0,1+1/200,1/200)
         ys = [float(y) for y in x.dens.values]
-            
-        cprobs = []
-        S = integrate.simps(ys,xs)
-        for i in range(len(ys)):
-            if i==0:
-                continue
-            cdf = integrate.simps( ys[:i], xs[:i] ) / S
-            cprobs.append(cdf)
-        cprobs = [0]+cprobs
 
-        x['cprobs'] = cprobs
+        cprobsSimp = [0]
+        for i in np.arange(1,200+1):
+            cdfSimp = integrate.simps( ys[:i+1], xs[:i+1] ) / totalSeconds
+            cprobsSimp.append(cdfSimp)
+       #cprobsSimp.append(1.)
+
+        #print(cprobsSimp)
+        x['cprobs'] = cprobsSimp
             
         return x
     return data.groupby(['qid']).apply(computeProbAndCProb).reset_index()
+
+def collectResolution(data):
+    if data["resolution"]:
+        return data["resolution"]
+    elif data["resolve_time"]:
+        return data["resolve_time"]
+    else:
+        return np.nan
 
 if __name__ == "__main__":
 
     qdata = {'surveynum':[],'numOfPredictions':[],'question':[],'qid':[],'publishtime':[],'closetime':[],'numcomments':[],'numvotes':[]}
     data = {'surveynum':[],'qid':[],'bin':[],'interval':[],'dens':[]}
+    resolveData = {'surveynum':[],'qid':[],'resolution':[]}
     
     fromsurveyNumber2Questionlist = {1:[4639,4641,4643,4640,4638,4642]
                                     ,2:[4828,4827,4829,4824,4825,4823,4822]
@@ -127,7 +141,7 @@ if __name__ == "__main__":
             sys.stdout.flush()
             
             metac.collectQdata(q) # collect json data for this specific question
-            
+
             if metac.hasDist() == False: # skip question with textual answers only
                 continue
             metac.constructPDF()  # contstuct community, unweighted consensus PDF
@@ -155,6 +169,7 @@ if __name__ == "__main__":
             nvotes =  metac.data['votes']
             qdata['numvotes'].append(nvotes)
 
+            #collection distribution data
             interv = metac.interval
             for (x,p) in zip(metac.xs,metac.dens):
                 data['qid'].append(qid)
@@ -163,14 +178,24 @@ if __name__ == "__main__":
                 data['interval'].append(interv)
                 data['surveynum'].append(surveyNum)
 
+            # collect resolution data
+            resolution = collectResolution(metac.data)
+            
+            resolveData["qid"].append(qid)
+            resolveData["surveynum"].append(surveyNum)
+            resolveData["resolution"].append(resolution)
+
+                
     # transform dict to a data frame
     qdata = pd.DataFrame(qdata)
     data  = pd.DataFrame(data)
+    resolveData = pd.DataFrame(resolveData)
 
     # approximate density to compute probs
     data = addInProbs(data)
     data = data.drop(columns=["index"])
 
     # store data
-    qdata.to_csv("./qdata.csv",index=False)
-    data.to_csv("./predictiondata.csv",index=False)
+    qdata.to_csv("./qdata.csv"               ,index=False)
+    data.to_csv("./predictiondata.csv"       ,index=False)
+    resolveData.to_csv("./resolutiondata.csv",index=False)
