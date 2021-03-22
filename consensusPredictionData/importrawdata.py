@@ -114,9 +114,16 @@ def addInProbs(data):
     return data.groupby(['qid']).apply(computeProbAndCProb).reset_index()
 
 def collectResolution(data):
+    from datetime import datetime
+    
     if data["resolution"]:
         return data["resolution"]
     elif data["resolve_time"]:
+        t =   pd.to_datetime(data["resolve_time"])
+        today =  pd.to_datetime(datetime.today(),utc=True)
+        
+        if t>today:
+            return np.nan
         return data["resolve_time"]
     else:
         return np.nan
