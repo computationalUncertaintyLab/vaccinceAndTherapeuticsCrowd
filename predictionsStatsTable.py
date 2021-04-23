@@ -28,7 +28,11 @@ if __name__ == "__main__":
     """
 
     n=0
-    predictions, qdata, forecasters = data.data().importdata()
+
+    d = data("./consensusPredictionData")
+    predictions = d.importPredictions()
+    qdata       = d.importQdata()
+    forecasters = d.importForecasters()
     
     for (surveynum,qid),data in predictions.groupby(["surveynum","qid"]):
         print(qid)
