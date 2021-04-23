@@ -4,7 +4,7 @@ import sys
 import numpy as np
 import pandas as pd
 
-from helperfunctions import data
+from mods import data
 
 def computeMedianAndIQR(d):
 
