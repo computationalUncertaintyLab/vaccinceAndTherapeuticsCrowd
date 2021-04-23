@@ -16,8 +16,18 @@ if __name__ == "__main__":
     #forecasts with resolution only
     resCasts = indivForecasts.loc[ ~np.isnan(indivForecasts.resolution) ]
 
-    indivScores = {"standin_id":[], "score":[],"surveynum":[],"expert":[],"qid":[]}
+    # most recent prediction
+    def mostRecent(x):
+        x["time"] = x.time.astype("datetime64[ns]")
+        times = x.time.unique()
 
+        return x.loc[x.time==max(times)]
+    resRec = resCasts.reset_index().groupby(["standin_id","qid"]).apply(mostRecent)
+    resRec = resRec.set_index(np.arange(len(resRec)))
+
+    resRec.to_csv("./consensusPredictionData/mostRecentIndividualPredictions.csv",index=False)
+    
+    indivScores = {"standin_id":[], "score":[],"surveynum":[],"expert":[],"qid":[]}
     def scoreForecast(forecast):
         f = interpolateDensity(forecast.scaledBin, forecast.dens)
         resolution = forecast.iloc[0]["resolution"]
@@ -26,7 +36,7 @@ if __name__ == "__main__":
 
         return pd.Series({"logscore":float(logOfDens)})
 
-    indivScores = resCasts.groupby([resCasts.index,"standin_id","surveynum","expert"]).apply(scoreForecast)
+    indivScores = resRec.groupby(["qid","standin_id","surveynum","expert"]).apply(scoreForecast)
     indivScores = indivScores.reset_index()
 
     indivScores.to_csv("./consensusPredictionData/individualScores.csv",index=False)

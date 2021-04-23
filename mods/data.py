@@ -44,6 +44,14 @@ class data(object):
         print("Imported individual forecasts")
         return d
 
+    def importmostRecentIndividualForecasts(self):
+        import os
+        fil = os.path.join(self.root,"mostRecentIndividualPredictions.csv")
+        d = pd.read_csv(fil).set_index("qid")
+        
+        print("Imported individual forecasts")
+        return d
+
     def importExpertSpecificConsensusForecasts(self):
         import os
         fil = os.path.join(self.root,"expertSpecificConsensusPreds.csv")
@@ -58,6 +66,22 @@ class data(object):
         d = pd.read_csv(fil).set_index("qid")
         
         print("Imported resolution data")
+        return d
+
+    def importIndividualScores(self):
+        import os
+        fil = os.path.join(self.root,"individualScores.csv")
+        d = pd.read_csv(fil).set_index("qid")
+        
+        print("Imported individual scores data")
+        return d
+
+    def importConsensusScores(self):
+        import os
+        fil = os.path.join(self.root,"expertSpecificConsensusScores.csv")
+        d = pd.read_csv(fil).set_index("qid")
+        
+        print("Imported individual scores data")
         return d
 
     def safetyQids(self):

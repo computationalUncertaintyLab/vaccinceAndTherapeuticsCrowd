@@ -3,7 +3,7 @@
 import sys
 
 from mods.data import data
-from mods.plots import mm2inch
+from mods.plots import mm2inch,stamp
 
 import numpy as np
 import pandas as pd
@@ -33,6 +33,8 @@ def convert2date(x,fmt="%Y-%m-%d %H:%M:%S"):
 
 import datetime
 
+from scipy.interpolate import interp1d as spline
+
 if __name__ == "__main__":
 
     d = data("./consensusPredictionData")
@@ -43,8 +45,13 @@ if __name__ == "__main__":
     
     efficacyQids = d.efficacyQids()
     efficacy = predictions.loc[ efficacyQids ]
-    
-    #truths = d.importTruths()
+
+    gd = data("./consensusPredictionData/")
+    indivForecasts = gd.importIndividualForecasts()
+
+    resolutions = indivForecasts.reset_index()
+    resolutions = resolutions[["qid","resolution"]].drop_duplicates().set_index(["qid"])
+
 
     plt.style.use("fivethirtyeight")
     fig,axs = plt.subplots(4,2,gridspec_kw={"height_ratios":[5,1,5,1]})
@@ -57,11 +64,32 @@ if __name__ == "__main__":
 
     ax.tick_params(which="both",labelsize=6)
     ax.set_xlim(thresh["bin"].iloc[0]-datetime.timedelta(days=7), thresh["bin"].iloc[-1]+datetime.timedelta(days=7))
-    ax.set_xticks( thresh["bin"].values[10::45]  )
+
     
     ax.set_ylabel("Consensus prob. dens.",fontsize=10)
-    ax.text(0.05,0.99,s="\n".join(textwrap.wrap(r"When will a COVID-19 vaccine show $\geq$ 70% efficacy",30))
+    ax.text(0.10,0.99,s="\n".join(textwrap.wrap(r"When will a COVID-19 vaccine show $\geq$ 70% efficacy",30))
             ,ha="left",va="top",transform=ax.transAxes,fontsize=10)
+
+
+    minbin, maxbin = min(thresh.bin.values), max(thresh.bin.values)
+    truth = minbin + resolutions.loc[4638,"resolution"]*(maxbin-minbin)
+
+    scaledValues = (thresh.bin.values - minbin) / (maxbin - minbin)
+    f = spline( scaledValues, thresh.dens.values )
+
+    densTru = f(resolutions.loc[4638,"resolution"])
+    ax.scatter( truth,densTru , s=30 ) 
+
+    ax.text(pd.to_datetime("2020-12-10") + datetime.timedelta(days=14)
+            , 2.5*densTru ,"Truth", ha="left", va="center", fontsize=10,color="blue")
+    ax.plot([ pd.to_datetime("2020-12-10"), pd.to_datetime("2020-12-10") + datetime.timedelta(days=28)]
+            ,[densTru*1.15,  2.*densTru]
+            , lw=1
+            ,color="blue")
+    ax.set_xticks( thresh["bin"].values[10::45]  )
+    
+    stamp("A.",ax) 
+
 
     ax=axs[1,0]
     quants = quantiles.loc[4638]
@@ -128,15 +156,16 @@ if __name__ == "__main__":
     for i,qid in enumerate( platformQids ):
         platform = efficacy.loc[qid]
 
-        ax = axs[0,1]
-        ax.plot( [ float(x) for x in platform.bin], platform.dens.values, lw=2, color= colors[i],label=legends[i] )
+        ax = axs[2,1]
+        domain = [ float(x) for x in platform.bin]
+        ax.plot(domain , platform.dens.values, lw=2, color= colors[i],label=legends[i] )
 
         ax.tick_params(which="both",labelsize=6)
 
         ax.set_xlim(0,100)
         ax.set_xticks(np.arange(0,100+1,10))
         
-        ax = axs[1,1]
+        ax = axs[3,1]
         quants  = quantiles.loc[qid].set_index("quantile")
         quantiles2Use = [ float(x) for x in quants.loc[["0.1","0.25","0.5","0.75","0.9"]].value]
         
@@ -154,13 +183,26 @@ if __name__ == "__main__":
 
         ax.set_ylim(ylim)
 
-    ax=axs[0,1]
-    ax.text(0.05,0.99,s="\n".join(textwrap.wrap("Efficacy at approval",25))
-            ,ha="left",va="top",transform=ax.transAxes,fontsize=10)
-    ax.legend(loc="center left",fontsize=9,frameon=False,bbox_to_anchor=(-0.045,0.75),labelspacing=0)
+    ax=axs[2,1]
+
+    thisRes = resolutions.loc[5057]
+    f = spline(domain , platform.dens.values )
+    ax.scatter( 100*thisRes["resolution"], f(100*thisRes["resolution"]), s=30, color="red" ) 
+
+    densTru = f(100*thisRes["resolution"])
+    
+    ax.text(70*0.99,0.5,"Truth",fontsize=10,ha="right",va="top",color="red")
+    ax.plot([70,95*0.99],[densTru, densTru], lw=1, color="red")
 
     
-    ax=axs[2,0]
+    ax.text(0.10,0.99,s="\n".join(textwrap.wrap("Efficacy at approval",25))
+            ,ha="left",va="top",transform=ax.transAxes,fontsize=10)
+    ax.legend(loc="center left",fontsize=9,frameon=False,bbox_to_anchor=(-0.045,0.75),labelspacing=0)
+    stamp("D.",ax)
+   
+
+    # CHAD OX
+    ax=axs[0,1]
 
     efOx = efficacy.loc[4639]
     ax.plot( efOx["bin"].astype(float).values, efOx.dens.values, lw=2 )
@@ -169,11 +211,12 @@ if __name__ == "__main__":
     ax.set_xticks(np.arange(0,100+1,10))
     ax.set_xlim(0,100)
     
-    ax.set_ylabel("Consensus prob. dens.",fontsize=10)
-    ax.text(0.05,0.99,s="\n".join(textwrap.wrap("Efficacy of trial to test Oxford/Astrazeneca ChAdOx1 vaccine",25))
+    
+    ax.text(0.10,0.99,s="\n".join(textwrap.wrap("Efficacy of trial to test Oxford/Astrazeneca ChAdOx1 vaccine",25))
             ,ha="left",va="top",transform=ax.transAxes,fontsize=10)
+    stamp("B.",ax)
 
-    ax=axs[3,0]
+    ax=axs[1,1]
     quants = quantiles.loc[4639]
     quants = quants.set_index("quantile")
 
@@ -205,7 +248,7 @@ if __name__ == "__main__":
     for i,qid in enumerate( platformQids ):
         platform = efficacy.loc[qid]
 
-        ax = axs[2,1]
+        ax = axs[2,0]
         ax.plot( [ float(x) for x in platform.bin], platform.dens.values, lw=2, color= colors[i],label=legends[i] )
 
         ax.tick_params(which="both",labelsize=6)
@@ -213,7 +256,7 @@ if __name__ == "__main__":
         ax.set_xlim(0,100)
         ax.set_xticks(np.arange(0,100+1,10))
         
-        ax = axs[3,1]
+        ax = axs[3,0]
         quants  = quantiles.loc[qid].set_index("quantile")
         quantiles2Use = [ float(x) for x in quants.loc[["0.1","0.25","0.5","0.75","0.9"]].value]
         
@@ -231,10 +274,14 @@ if __name__ == "__main__":
 
         ax.set_ylim(ylim)
 
-    ax=axs[2,1]
-    ax.text(0.05,0.99,s="\n".join(textwrap.wrap("Efficacy by platform",25))
+    ax=axs[2,0]
+    ax.text(0.10,0.99,s="\n".join(textwrap.wrap("Efficacy by platform",25))
             ,ha="left",va="top",transform=ax.transAxes,fontsize=10)
     ax.legend(loc="center left",fontsize=9,frameon=False,bbox_to_anchor=(0,0.65),labelspacing=0)
+
+    ax.set_ylabel("Consensus prob. dens.",fontsize=10)
+
+    stamp("C.",ax)
     
     w = mm2inch(183)
     
