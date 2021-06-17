@@ -4,6 +4,9 @@ We aim to build an expert consensus prediction on developments related to SARS-C
 Each survey asks a small group of subject matter experts and trained forecasters to make predictions starting on the 15th and closing on the 25th of every month.
 Results will be compiled and on this repository on the 1st of the subsequent month.
 
+# Publications
+[Aggregating probabilistic predictions of the safety, efficacy, and timing of a COVID-19 vaccine](https://www.medrxiv.org/content/10.1101/2021.06.03.21258240v1)
+
 # Expert definitions
 Subject matter experts were defined as those in the fields of molecular and cellular biology, microbiology, virology, biochemistry, and infectious disease, who have several years of experience in vaccine, antiviral, or biological research related to infectious agents, and are up-to-date with vaccine/antiviral research specifically focused on the novel coronavirus. 
 
