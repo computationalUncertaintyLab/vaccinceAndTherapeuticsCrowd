@@ -259,6 +259,9 @@ if __name__ == "__main__":
         ax = axs[3,0]
         quants  = quantiles.loc[qid].set_index("quantile")
         quantiles2Use = [ float(x) for x in quants.loc[["0.1","0.25","0.5","0.75","0.9"]].value]
+
+        print(legends[i])
+        print(quantiles2Use)
         
         ax.plot( [ quantiles2Use[0]  , quantiles2Use[-1]], [ypos]*2 , lw=10*F, alpha=0.4, color= colors[i]  )
         ax.plot( [ quantiles2Use[1]  , quantiles2Use[-2]], [ypos]*2 , lw=5*F , alpha=0.4, color= colors[i]  )

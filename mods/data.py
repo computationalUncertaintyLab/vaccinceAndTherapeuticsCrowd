@@ -83,6 +83,15 @@ class data(object):
         
         print("Imported individual scores data")
         return d
+    
+    def importRanks(self):
+        import os
+        fil = os.path.join(self.root,"individualAndConsensusRanks.csv")
+        d = pd.read_csv(fil).set_index("qid")
+        
+        print("Imported individual and consensus ranked scores data")
+        return d
+
 
     def safetyQids(self):
         return [4642,4828,4829,5060,5291,5292]

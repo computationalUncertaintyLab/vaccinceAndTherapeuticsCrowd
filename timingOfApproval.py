@@ -63,10 +63,10 @@ if __name__ == "__main__":
     whenApproved = toaQuants.loc[[4640,4822],:] 
 
     i = 0
-    colors = ["blue","red"]
+    colors = ["purple","purple"]
     for qid,subset in whenApproved.groupby(whenApproved.index):
 
-        for lo,hi in [ ("0.05","0.95"),("0.25","0.75") ]:
+        for lo,hi in [ ("0.1","0.9"),("0.25","0.75") ]:
             low,high = subset.loc[subset["quantile"]==lo,"value"].values, subset.loc[subset["quantile"]==hi,"value"].values
             ax.plot( [i]*2, [low,high], lw=10, alpha=0.35,color=colors[i] )
         med = subset.loc[subset["quantile"]=="0.5","value"].values
@@ -74,17 +74,17 @@ if __name__ == "__main__":
         i+=1
     
     ax.axhline(pd.to_datetime("2020-12-11"), color="black",linestyle="--",lw=2)
-    ax.text(1.,0.1225,"Truth",fontsize=10,va="bottom",ha="right",transform=ax.transAxes)
+    ax.text(1.,0.1,"Truth",fontsize=10,va="bottom",ha="right",transform=ax.transAxes)
     
     ax.tick_params(which="both",labelsize=8)
     ax.set_ylabel("Predicted time of approval of COVID-19 vaccine",fontsize=10)
     ax.set_xlabel("Survey issued",fontsize=10)
 
     ax.set_xticks([0,1])
-    ax.set_xticklabels(["2020-06","2020-07"],fontsize=8)
+    ax.set_xticklabels(["June, 2020","July, 2020"],fontsize=8)
 
     ax.set_xlim(-0.5,1.5)
-    ax.set_ylim(pd.to_datetime("2020-06-01"),pd.to_datetime("2024-12-31"))
+    ax.set_ylim(pd.to_datetime("2020-06-01"),pd.to_datetime("2023-12-31"))
 
 
     ax.text(0.01,0.99
@@ -101,7 +101,7 @@ if __name__ == "__main__":
     for qid,subset in normalAndEUA.groupby(normalAndEUA.index):
         x = fromQID2x[qid]
 
-        for lo,hi in [ ("0.05","0.95"),("0.25","0.75") ]:
+        for lo,hi in [ ("0.1","0.9"),("0.25","0.75") ]:
             low,high = subset.loc[subset["quantile"]==lo,"value"].values, subset.loc[subset["quantile"]==hi,"value"].values
 
             ax.plot( [x]*2, [low,high], lw=10, alpha=0.35,color=colors[i%2] )
@@ -124,18 +124,18 @@ if __name__ == "__main__":
     truth2 = minbin + resolutions.loc[5289,"resolution"]*(maxbin-minbin)
     
     ax.axhline(truth2, color="black",linestyle="--",lw=2)
-    ax.text(1.,0.1225,"Truth",fontsize=10,va="bottom",ha="right",transform=ax.transAxes)
+    ax.text(1.,0.1,"Truth",fontsize=10,va="bottom",ha="right",transform=ax.transAxes)
 
     
     ax.tick_params(which="both",labelsize=8)
     ax.set_xlabel("Survey issued",fontsize=10)
 
     ax.set_xticks([0.15,0.75])
-    ax.set_xticklabels(["2020-08","2020-09"],fontsize=8)
+    ax.set_xticklabels(["Aug., 2020","Sept., 2020"],fontsize=8)
 
     ax.set_xlim(-0.5,1.5)
 
-    ax.set_ylim(pd.to_datetime("2020-06-01"),pd.to_datetime("2024-12-31"))
+    ax.set_ylim(pd.to_datetime("2020-06-01"),pd.to_datetime("2023-12-31"))
 
     ax.text(0.01,0.99
             ,"\n".join(textwrap.wrap("When will a SARS-CoV-2 vaccine candidate be approved for use in the US through",37))
@@ -145,7 +145,7 @@ if __name__ == "__main__":
     ax.plot([0.15,0.275],[0.35,0.30],color="blue",lw=1,transform=ax.transAxes)
 
     ax.text(0.145,0.80,"Emergency\n authorization",fontsize=10,ha="center",va="center",transform=ax.transAxes,color="red")
-    ax.plot([0.15,0.325],[0.765,0.70],color="red",lw=1,transform=ax.transAxes)
+    ax.plot([0.15,0.35],[0.75,0.635],color="red",lw=1,transform=ax.transAxes)
 
 
     
